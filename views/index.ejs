@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Static Files</title>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<form method="POST" action="/upload" enctype="multipart/form-data">
+			<input type="file" name="file" id="file-input">
+            <button type="button" id="upload-button">Upload</button>
+		</form>
+
+        <button type="button" id="pause-upload">Pause Upload</button>
+        <button type="button" id="resume-upload">Resume Upload</button>
+
+        <script
+                src="https://code.jquery.com/jquery-3.2.1.min.js"
+                integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+                crossorigin="anonymous"></script>
+        <script src="js/tus.min.js"></script>
+        <script>
+            var upload;
+
+            $("#upload-button").click(function() {
+                // Get the selected file from the input element
+                var file = $("#file-input")[0].files[0];
+
+                // Create a new tus upload
+                upload = new tus.Upload(file, {
+                    endpoint: "/uploads/",
+                    resume: true,
+                    chunkSize: 1000000,
+//                    retryDelays: [0, 1000, 3000, 5000],
+                    onError: function(error) {
+                        console.log("Failed because: " + error);
+                    },
+                    onProgress: function(bytesUploaded, bytesTotal) {
+                        var percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
+                        console.log(bytesUploaded, bytesTotal, percentage + "%");
+                    },
+                    onSuccess: function() {
+                        console.log("Download %s from %s", upload.file.name, upload.url);
+                    }
+                });
+
+                // Start the upload
+                upload.start()
+            });
+
+            $("#pause-upload").click(function (e) {
+               upload.abort();
+            });
+
+            $("#resume-upload").click(function (e) {
+                upload.start();
+            });
+        </script>
+	</body>
+</html>
