@@ -21,84 +21,84 @@
 		<script src="https://www.gstatic.com/firebasejs/4.0.0/firebase-auth.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/4.0.0/firebase-storage.js"></script>
 		<script>
-						// Initialize Firebase
-						firebase.initializeApp(<%- JSON.stringify(firebaseConfig, null, 2) %>);
+      // Initialize Firebase
+      firebase.initializeApp(<%- JSON.stringify(firebaseConfig, null, 2) %>);
 
-						var upload;
+      var upload;
 
-						// reference to the root of the storage bucket
-						var storageRef = firebase.storage().ref();
+      // reference to the root of the storage bucket
+      var storageRef = firebase.storage().ref();
 
-						$("#upload-button").click(function() {
-							// Get the selected file from the input element
-							var file = $("#file-input")[0].files[0];
+      $("#upload-button").click(function() {
+        // Get the selected file from the input element
+        var file = $("#file-input")[0].files[0];
 
-							// Create the file metadata
-							var metadata = {
-								contentType: file.type // just go with whatever content type the browser thinks the file is
-							};
+        // Create the file metadata
+        var metadata = {
+          contentType: file.type // just go with whatever content type the browser thinks the file is
+        };
 
-							// if there was already an upload in progress, just cancel it
-							if (upload) {
-								upload.cancel();
-							}
+        // if there was already an upload in progress, just cancel it
+        if (upload) {
+          upload.cancel();
+        }
 
-							// Upload file and metadata
-							// .child(file.name) sets the file name in GCS,
-							// .put(...) uploads the data
-							upload = storageRef.child(file.name).put(file, metadata);
+        // Upload file and metadata
+        // .child(file.name) sets the file name in GCS,
+        // .put(...) uploads the data
+        upload = storageRef.child(file.name).put(file, metadata);
 
-							console.log(upload);
+        console.log(upload);
 
-							// Listen for state changes, errors, and completion of the upload.
-							upload.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-								function(snapshot) {
-									// Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-									var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-									console.log('Upload is ' + progress + '% done');
-									switch (snapshot.state) {
-										case firebase.storage.TaskState.PAUSED: // or 'paused'
-											console.log('Upload is paused');
-											break;
-										case firebase.storage.TaskState.RUNNING: // or 'running'
-											console.log('Upload is running');
-											break;
-									}
-								}, function(error) {
+        // Listen for state changes, errors, and completion of the upload.
+        upload.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+          function(snapshot) {
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            switch (snapshot.state) {
+              case firebase.storage.TaskState.PAUSED: // or 'paused'
+                console.log('Upload is paused');
+                break;
+              case firebase.storage.TaskState.RUNNING: // or 'running'
+                console.log('Upload is running');
+                break;
+            }
+          }, function(error) {
 
-									console.error('upload error', error);
+            console.error('upload error', error);
 
-									// A full list of error codes is available at
-									// https://firebase.google.com/docs/storage/web/handle-errors
-									switch (error.code) {
-										case 'storage/unauthorized':
-											// User doesn't have permission to access the object
-											break;
+            // A full list of error codes is available at
+            // https://firebase.google.com/docs/storage/web/handle-errors
+            switch (error.code) {
+              case 'storage/unauthorized':
+                // User doesn't have permission to access the object
+                break;
 
-										case 'storage/canceled':
-											// User canceled the upload
-											break;
+              case 'storage/canceled':
+                // User canceled the upload
+                break;
 
-										// ...
+              // ...
 
-										case 'storage/unknown':
-											// Unknown error occurred, inspect error.serverResponse
-											break;
-									}
-								}, function() {
-									// Upload completed successfully, now we can get the download URL
-									var downloadURL = upload.snapshot.downloadURL;
-									console.log('upload complete, download url is', downloadURL)
-								});
-						});
+              case 'storage/unknown':
+                // Unknown error occurred, inspect error.serverResponse
+                break;
+            }
+          }, function() {
+            // Upload completed successfully, now we can get the download URL
+            var downloadURL = upload.snapshot.downloadURL;
+            console.log('upload complete, download url is', downloadURL)
+          });
+      });
 
-						$("#pause-upload").click(function (e) {
-							 upload.pause();
-						});
+      $("#pause-upload").click(function(e) {
+        upload.pause();
+      });
 
-						$("#resume-upload").click(function (e) {
-								upload.resume();
-            });
+      $("#resume-upload").click(function(e) {
+        upload.resume();
+      });
        </script>
 	</body>
 </html>
