@@ -9,6 +9,7 @@ Setup:
 
 3) Setup bucket to allow unauthenticated uploads:
 
+```
 // https://firebase.google.com/docs/storage/security/start#sample-rules
 // Anyone can read or write to the bucket, even non-users of your app.
 // Because it is shared with Google App Engine, this will also make
@@ -20,5 +21,6 @@ service firebase.storage {
     }
   }
 }
+```
 
 (Obviously this should become more secure eventually)
