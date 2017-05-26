@@ -21,19 +21,9 @@
 		<script src="https://www.gstatic.com/firebasejs/4.0.0/firebase-auth.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/4.0.0/firebase-storage.js"></script>
 		<script>
-			// Initialize Firebase
-			// todo: pull these details from env properties
-			var config = {
-				apiKey: "AIzaSyDs7Z3Jq3-wmwPyCeRW05F-PSjsPeN8k50",
-				authDomain: "gcloud-upload-test.firebaseapp.com",
-				databaseURL: "https://gcloud-upload-test.firebaseio.com",
-				projectId: "gcloud-upload-test",
-				storageBucket: "gcloud-upload-test.appspot.com",
-				messagingSenderId: "263919161981"
-			};
-			firebase.initializeApp(config);
-		</script>
-		<script>
+						// Initialize Firebase
+						firebase.initializeApp(<%- JSON.stringify(firebaseConfig, null, 2) %>);
+
 						var upload;
 
 						// reference to the root of the storage bucket

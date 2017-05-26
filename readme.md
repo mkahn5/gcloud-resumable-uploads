@@ -5,7 +5,7 @@ Setup:
 
 1) Create a firebase app & get the web credentials: https://firebase.google.com/docs/web/setup
 
-2) Put credentials into views/index.ejs (todo: move these to env props)
+2) Put credentials into app.yaml
 
 3) Setup bucket to allow unauthenticated uploads:
 
