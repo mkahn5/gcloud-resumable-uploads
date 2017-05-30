@@ -11,9 +11,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daniyals/gcloud-resumable-upload.git"
+    "url": "https://github.com/mkahn5/gcloud-resumable-uploads.git"
   },
-  "author": "Daniyal Shahid",
+  "author": "Mike Kahn, Nathan Friedly",
   "license": "ISC",
   "dependencies": {
     "ejs": "~2.5.5",
