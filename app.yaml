@@ -17,7 +17,14 @@ env: flex
 
 # [START env]
 env_variables:
-  GCLOUD_PROJECT_ID: testing-31337
-  GCLOUD_STORAGE_BUCKET: testing-31337-public
+  #GCLOUD_PROJECT_ID: testing-31337
+  #GCLOUD_STORAGE_BUCKET: testing-31337-public
+  # Nathan's testing credentials:
+  FIREBASE_API_KEY: AIzaSyDs7Z3Jq3-wmwPyCeRW05F-PSjsPeN8k50
+  FIREBASE_AUTH_DOMAIN: gcloud-upload-test.firebaseapp.com
+  FIREBASE_DB_URL: https://gcloud-upload-test.firebaseio.com
+  FIREBASE_PROJECT_ID: gcloud-upload-test
+  FIREBASE_STORAGE_BUCKET: gcloud-upload-test.appspot.com
+  FIREBASE_MESSAGEING_SENDER_ID: 263919161981
 # [END env]
 # [END app_yaml]
